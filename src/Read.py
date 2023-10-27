@@ -65,7 +65,8 @@ while continue_reading:
 
     # Scan for cards
     (status, TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
-
+    # print(status)
+    # print(TagType)
     # If a card is found
     if status == MIFAREReader.MI_OK:
         print ("Card detected")
@@ -73,8 +74,10 @@ while continue_reading:
         # Get the UID of the card
         (status, uid) = MIFAREReader.MFRC522_SelectTagSN()
         # If we have the UID, continue
-        if status == MIFAREReader.MI_OK:
-            print("Card read UID: %s" % uidToString(uid))
+        uid_str = uidToString(uid)
+        if status == MIFAREReader.MI_OK and uid_str == "8045F07A":
+            print("Card read UID: %s" % uid_str)
+
         else:
             print("Authentication error")
 

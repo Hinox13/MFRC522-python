@@ -29,15 +29,11 @@
 #
 #
 
-
-
-
 import spidev 
 import signal
 import time
 
 DEBUG = False
-
 
 class MFRC522:
   MAX_LEN = 16
@@ -343,9 +339,6 @@ class MFRC522:
   def MFRC522_PcdSelect3(self, serNum):
     return  self.MFRC522_PcdSelect(serNum,self.PICC_ANTICOLL3)
 
-
-
-
   def MFRC522_Auth(self, authMode, BlockAddr, Sectorkey, serNum):
     buff = []
 
@@ -371,8 +364,6 @@ class MFRC522:
     (status, backData, backLen) = self.MFRC522_ToCard(self.PCD_AUTHENT,buff)
 
     # Check if an error occurred
-
-
     if DEBUG:
       if not(status == self.MI_OK):
         print("AUTH ERROR!!")
