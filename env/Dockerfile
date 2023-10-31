@@ -7,4 +7,5 @@ RUN pip install --upgrade pip
 COPY env/requirements.txt env/requirements.txt
 RUN pip install wheel rpi-gpio spidev
 RUN pip install -r env/requirements.txt
+RUN pip3 install requests python-dotenv
 ENV PYTHONUNBUFFERED=1

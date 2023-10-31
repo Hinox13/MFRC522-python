@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
 #
-#    Copyright 2018 Daniel Perron
-#
-#    Base on Mario Gomez <mario.gomez@teubi.co>   MFRC522-Python
+#    Base on Daniel Perron and Mario Gomez <mario.gomez@teubi.co>   MFRC522-Python
 #
 #    This file use part of MFRC522-Python
 #    MFRC522-Python is a simple Python implementation for
@@ -29,6 +27,14 @@
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
+import requests
+
+# Load environment variables
+import os
+from dotenv import load_dotenv
+load_dotenv("params.env")
+# Get server IP
+SERVER_IP = os.getenv("SERVER_IP")
 
 continue_reading = True
 
@@ -70,14 +76,14 @@ while continue_reading:
     # If a card is found
     if status == MIFAREReader.MI_OK:
         print ("Card detected")
-
         # Get the UID of the card
         (status, uid) = MIFAREReader.MFRC522_SelectTagSN()
         # If we have the UID, continue
         uid_str = uidToString(uid)
-        if status == MIFAREReader.MI_OK and uid_str == "8045F07A":
+        if status == MIFAREReader.MI_OK:
             print("Card read UID: %s" % uid_str)
-
+            req = requests.post(url=f"http://{SERVER_IP}/", json={"uid_str" : uid_str}, headers={"Content-Type":"application/json"})
+            print(req.text)
         else:
             print("Authentication error")
 
